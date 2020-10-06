@@ -15,10 +15,14 @@ class Post extends Method {
     process(req, res) {
         
         this._body = req.body;
+        if (typeof this._body === "object") {
+            this._body = JSON.stringify(this._body);
+        }
         this._uu.getUriInfo(req);
-        console.log(this._uu);
+        //console.log(this._uu);
     
         this._mu.getMimeInfo(req);
+        //console.log(this._mu);
         // res.status(200).send(this._mu);
 
         /*
@@ -42,9 +46,9 @@ class Post extends Method {
                         .then(data => {
                             this._mu = data;
                 
-                            if (this._mu.links.includes("<http://www.w3.org/ns/ldp#NonRDFSource>")) {
-                                res.status(409).send("Conflict: " + mu.links + " (Cannot POST NonRDFSource)");
-                            }
+                            //if (this._mu.links.includes("<http://www.w3.org/ns/ldp#NonRDFSource>")) {
+                            //    res.status(409).send("Conflict: " + this._mu.links + " (Cannot POST NonRDFSource)");
+                            //}
           
                             var mime = this._mu.mimeContentType; 
                             var selfReference = false;
