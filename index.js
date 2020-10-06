@@ -15,6 +15,8 @@ var AdminIndexes = require("./admin/Indexes");
 
 const ldp = express();
 
+ldp.use(bodyParser({limit: '50mb'}));
+
 ldp.use(bodyParser.urlencoded({ extended: true }));
 
 ldp.use(bodyParser.text({ type: 'application/ld+json' }));
