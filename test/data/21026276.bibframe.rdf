@@ -1,0 +1,170 @@
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <void:DatasetDescription rdf:about="" xmlns:void="http://rdfs.org/ns/void#">
+    <foaf:primaryTopic xmlns:foaf="http://xmlns.com/foaf/0.1/" rdf:resource="http://id.loc.gov/resources/works/21026276" />
+  </void:DatasetDescription>
+  <bf:Work rdf:about="http://id.loc.gov/resources/works/21026276" xmlns:bf="http://id.loc.gov/ontologies/bibframe/">
+    <bflc:aap xmlns:bflc="http://id.loc.gov/ontologies/bflc/">Chŏn, Pyŏng-hwan, No Mu-hyŏn ŭl wihan pyŏnmyŏng</bflc:aap>
+    <bflc:aap-normalized xmlns:bflc="http://id.loc.gov/ontologies/bflc/">chŏnpyŏnghwannomuhyŏnŭlwihanpyŏnmyŏng</bflc:aap-normalized>
+    <bflc:aapVariant xmlns:bflc="http://id.loc.gov/ontologies/bflc/">전 병환, No Mu-hyŏn ŭl wihan pyŏnmyŏng</bflc:aapVariant>
+    <bflc:aapVariant-normalized xmlns:bflc="http://id.loc.gov/ontologies/bflc/">전병환nomuhyŏnŭlwihanpyŏnmyŏng</bflc:aapVariant-normalized>
+    <bflc:aapVariant xmlns:bflc="http://id.loc.gov/ontologies/bflc/">Kim, T'ae-hyŏn (Entrepreneur), No Mu-hyŏn ŭl wihan pyŏnmyŏng</bflc:aapVariant>
+    <bflc:aapVariant-normalized xmlns:bflc="http://id.loc.gov/ontologies/bflc/">kimt'aehyŏn(entrepreneur)nomuhyŏnŭlwihanpyŏnmyŏng</bflc:aapVariant-normalized>
+    <bflc:aapVariant xmlns:bflc="http://id.loc.gov/ontologies/bflc/">김 태현 (Entrepreneur), No Mu-hyŏn ŭl wihan pyŏnmyŏng</bflc:aapVariant>
+    <bflc:aapVariant-normalized xmlns:bflc="http://id.loc.gov/ontologies/bflc/">김태현(entrepreneur)nomuhyŏnŭlwihanpyŏnmyŏng</bflc:aapVariant-normalized>
+    <bflc:aapVariant xmlns:bflc="http://id.loc.gov/ontologies/bflc/">Hong, Chong-hwa (Writer on No Mu-hyŏn), No Mu-hyŏn ŭl wihan pyŏnmyŏng</bflc:aapVariant>
+    <bflc:aapVariant-normalized xmlns:bflc="http://id.loc.gov/ontologies/bflc/">hongchonghwa(writeronnomuhyŏn)nomuhyŏnŭlwihanpyŏnmyŏng</bflc:aapVariant-normalized>
+    <bflc:aapVariant xmlns:bflc="http://id.loc.gov/ontologies/bflc/">홍 종화 (Writer on No Mu-hyŏn), No Mu-hyŏn ŭl wihan pyŏnmyŏng</bflc:aapVariant>
+    <bflc:aapVariant-normalized xmlns:bflc="http://id.loc.gov/ontologies/bflc/">홍종화(writeronnomuhyŏn)nomuhyŏnŭlwihanpyŏnmyŏng</bflc:aapVariant-normalized>
+    <bf:adminMetadata>
+                <bf:AdminMetadata>
+                  <bf:generationProcess>
+                    <bf:GenerationProcess>
+                      <rdfs:label xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">DLC marc2bibframe2 v1.6.0-SNAPSHOT: 2019-08-22T11:16:50-04:00</rdfs:label>
+                    </bf:GenerationProcess>
+                  </bf:generationProcess>
+                  <bf:status>
+                    <bf:Status>
+                      <rdfs:label xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">corrected or revised</rdfs:label>
+                      <bf:code>c</bf:code>
+                    </bf:Status>
+                  </bf:status>
+                  <bflc:encodingLevel rdf:resource="http://id.loc.gov/vocabulary/menclvl/f" xmlns:bflc="http://id.loc.gov/ontologies/bflc/"/>
+                  <bf:descriptionConventions rdf:resource="http://id.loc.gov/vocabulary/descriptionConventions/isbd"/>
+                  <bf:identifiedBy>
+                    <bf:Local>
+                      <rdf:value>21026276</rdf:value>
+                      <bf:assigner rdf:resource="http://id.loc.gov/vocabulary/organizations/dlc"/>
+                    </bf:Local>
+                  </bf:identifiedBy>
+                  <bf:changeDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-06-27T14:25:17</bf:changeDate>
+                  <bf:creationDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2019-06-19</bf:creationDate>
+                  <bf:source>
+                    <bf:Source>
+                      <rdf:type rdf:resource="http://id.loc.gov/ontologies/bibframe/Agent"/>
+                      <rdfs:label xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">CLU</rdfs:label>
+                    </bf:Source>
+                  </bf:source>
+                  <bf:source>
+                    <bf:Source>
+                      <rdf:type rdf:resource="http://id.loc.gov/ontologies/bibframe/Agent"/>
+                      <rdfs:label xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">CLU</rdfs:label>
+                    </bf:Source>
+                  </bf:source>
+                  <bf:descriptionLanguage rdf:resource="http://id.loc.gov/vocabulary/languages/eng"/>
+                  <bf:descriptionModifier>
+                    <bf:Agent>
+	    <rdfs:label xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">OCLCF</rdfs:label>
+	  </bf:Agent>
+                  </bf:descriptionModifier>
+                  <bf:descriptionModifier rdf:resource="http://id.loc.gov/vocabulary/organizations/dlc"/>
+                  <bf:descriptionConventions rdf:resource="http://id.loc.gov/vocabulary/descriptionConventions/rda"/>
+                  <bf:descriptionAuthentication rdf:resource="http://id.loc.gov/vocabulary/marcauthen/lccopycat"/>
+                </bf:AdminMetadata>
+              </bf:adminMetadata>
+    <rdf:type rdf:resource="http://id.loc.gov/ontologies/bibframe/Text"/>
+    <bf:language rdf:resource="http://id.loc.gov/vocabulary/languages/kor"/>
+    <bf:supplementaryContent rdf:resource="http://id.loc.gov/authorities/genreForms/gf2014026048"/>
+    <bf:genreForm rdf:resource="http://id.loc.gov/authorities/genreForms/gf2014026049"/>
+    <bf:identifiedBy>
+                <bf:Lccn>
+                  <rdf:value>  2019411212</rdf:value>
+                </bf:Lccn>
+              </bf:identifiedBy>
+    <bf:geographicCoverage rdf:resource="http://id.loc.gov/vocabulary/geographicAreas/a-ko"/>
+    <bf:classification>
+                <bf:ClassificationLcc>
+                  <bf:source rdf:resource="http://id.loc.gov/vocabulary/organizations/dlc"/>
+                  <bf:classificationPortion>DS922.4642.N6</bf:classificationPortion>
+                  <bf:itemPortion>C45 2018</bf:itemPortion>
+                </bf:ClassificationLcc>
+              </bf:classification>
+    <bf:contribution>
+      <bf:Contribution>
+	<rdf:type rdf:resource="http://id.loc.gov/ontologies/bflc/PrimaryContribution"/>
+	<bf:agent rdf:resource="http://id.loc.gov/rwo/agents/n2019037634"/>
+	<bf:role rdf:resource="http://id.loc.gov/vocabulary/relators/aut"/>
+      </bf:Contribution>
+    </bf:contribution>
+    <bf:contribution>
+      <bf:Contribution>
+	<rdf:type rdf:resource="http://id.loc.gov/ontologies/bflc/PrimaryContribution"/>
+	<bf:agent rdf:resource="http://id.loc.gov/rwo/agents/n2019037634"/>
+	<bf:role rdf:resource="http://id.loc.gov/vocabulary/relators/aut"/>
+      </bf:Contribution>
+    </bf:contribution>
+    <rdfs:label xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">No Mu-hyŏn ŭl wihan pyŏnmyŏng</rdfs:label>
+    <bf:title>
+      <bf:Title>
+	<rdfs:label xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">No Mu-hyŏn ŭl wihan pyŏnmyŏng</rdfs:label>
+	<bf:mainTitle>No Mu-hyŏn ŭl wihan pyŏnmyŏng</bf:mainTitle>
+      </bf:Title>
+    </bf:title>
+    <bf:title>
+      <bf:Title>
+	<rdfs:label xml:lang="ko-hang" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">노 무현 을 위한 변명</rdfs:label>
+	<bf:mainTitle xml:lang="ko-hang">노 무현 을 위한 변명</bf:mainTitle>
+      </bf:Title>
+    </bf:title>
+    <bf:content rdf:resource="http://id.loc.gov/vocabulary/contentTypes/txt"/>
+    <bf:supplementaryContent>
+                <bf:SupplementaryContent>
+                  <rdfs:label xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">Includes bibliographical references (page 232).</rdfs:label>
+                </bf:SupplementaryContent>
+              </bf:supplementaryContent>
+    <bf:subject>
+      <bf:Topic>
+	<rdf:type rdf:resource="http://www.loc.gov/mads/rdf/v1#ComplexSubject"/>
+	<madsrdf:authoritativeLabel xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#">Roh, Moo Hyun, 1946-2009--Political and social views.</madsrdf:authoritativeLabel>
+	<madsrdf:isMemberOfMADSScheme rdf:resource="http://id.loc.gov/authorities/subjects" xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#"/>
+	<madsrdf:componentList rdf:resource="http://id.loc.gov/resources/REPLACE/21026276#Agent600-27" xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#"/>
+	<bflc:aap-normalized xmlns:bflc="http://id.loc.gov/ontologies/bflc/">rohmoohyun19462009politicalandsocialviews</bflc:aap-normalized>
+      </bf:Topic>
+    </bf:subject>
+    <bf:subject>
+      <bf:Topic>
+	<rdf:type rdf:resource="http://www.loc.gov/mads/rdf/v1#ComplexSubject"/>
+	<rdfs:label xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">Political leadership--Korea (South)</rdfs:label>
+	<madsrdf:authoritativeLabel xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#">Political leadership--Korea (South)</madsrdf:authoritativeLabel>
+	<madsrdf:isMemberOfMADSScheme rdf:resource="http://id.loc.gov/authorities/subjects" xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#"/>
+	<madsrdf:componentList rdf:parseType="Collection" xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#">
+                    <madsrdf:Topic>
+                      <madsrdf:authoritativeLabel>Political leadership</madsrdf:authoritativeLabel>
+                    </madsrdf:Topic>
+                    <madsrdf:Geographic>
+                      <madsrdf:authoritativeLabel>Korea (South)</madsrdf:authoritativeLabel>
+                    </madsrdf:Geographic>
+                  </madsrdf:componentList>
+	<bflc:aap-normalized xmlns:bflc="http://id.loc.gov/ontologies/bflc/">politicalleadershipkorea(south)</bflc:aap-normalized>
+      </bf:Topic>
+    </bf:subject>
+    <bf:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh2008109954"/>
+    <bf:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh91003875"/>
+    <bf:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh2007005624"/>
+    <bf:contribution>
+      <bf:Contribution>
+	<bf:agent rdf:resource="http://id.loc.gov/rwo/agents/n2019037635"/>
+	<bf:role rdf:resource="http://id.loc.gov/vocabulary/relators/aut"/>
+      </bf:Contribution>
+    </bf:contribution>
+    <bf:contribution>
+      <bf:Contribution>
+	<bf:agent rdf:resource="http://id.loc.gov/rwo/agents/n2019037635"/>
+	<bf:role rdf:resource="http://id.loc.gov/vocabulary/relators/aut"/>
+      </bf:Contribution>
+    </bf:contribution>
+    <bf:contribution>
+      <bf:Contribution>
+	<bf:agent rdf:resource="http://id.loc.gov/rwo/agents/n2019037636"/>
+	<bf:role rdf:resource="http://id.loc.gov/vocabulary/relators/aut"/>
+      </bf:Contribution>
+    </bf:contribution>
+    <bf:contribution>
+      <bf:Contribution>
+	<bf:agent rdf:resource="http://id.loc.gov/rwo/agents/n2019037636"/>
+	<bf:role rdf:resource="http://id.loc.gov/vocabulary/relators/aut"/>
+      </bf:Contribution>
+    </bf:contribution>
+    <dcterms:isPartOf rdf:resource="http://id.loc.gov/resources/works" xmlns:dcterms="http://purl.org/dc/terms/"/>
+    <bf:hasInstance rdf:resource="http://id.loc.gov/resources/instances/21026276"/>
+  </bf:Work>
+</rdf:RDF>
