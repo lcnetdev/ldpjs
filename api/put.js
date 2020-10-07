@@ -47,7 +47,7 @@ class Put extends Method {
             var index = await this._config.createIndexDoc(version);
         } catch(e) {
             console.log(e);
-            res.status(500).send("Server error: RDF conversion error.  Malformed RDF?");
+            res.status(500).send("Server error: Index conversion error (createIndexDoc).");
         }
         var uu = this._uu;
         this._collection.findOne( { docuri: { $exists: true, $eq: this._uu.docuri } } )
