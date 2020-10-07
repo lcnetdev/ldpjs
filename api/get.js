@@ -41,16 +41,17 @@ class Get extends Method {
                         if (mime.resourceType == "Unknown") {
                             // This means the accept type was */*.  It depends
                             // on the content.
-                            if (
-                                    version.ldpTypes.includes("<http://www.w3.org/ns/ldp#NonRDFSource>") || 
-                                    version.ldpTypes.includes("<http://www.w3.org/ns/ldp#NonRDFResource>")
-                                    ) {
+                            if (version.ldpTypes.includes("<http://www.w3.org/ns/ldp#NonRDFSource>")) {
                                 mime.resourceType = "NonRDF";
                                 mime.value = version.mimeType;
                             }
                         } else if (mime.resourceType == "NonRDF") {
                             if (version.mimeType != mime.value) {
-                                return res.status(409).send("Conflict: Cannot render resource as " + mime.value + ".");
+                                if ( this._mu.accepts.find(x => x.value === '*/*') !== undefined) {
+                                    mime.value = version.mimeType;
+                                } else {
+                                    return res.status(409).send("Conflict: Cannot render resource as " + mime.value + ".");
+                                }
                             }
                         }
                         
