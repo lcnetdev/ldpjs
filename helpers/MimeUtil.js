@@ -73,6 +73,9 @@ class MimeUtil{
                 "incoming": "json",
                 "resourceType": "NonRDF",
             },
+            "*/*": {
+                "resourceType": "Unknown",
+            },
         };
         
         var links;
@@ -134,6 +137,8 @@ class MimeUtil{
             }
         }
         
+        // Must ever request have an accept header?  If not, this will
+        // need to be adjusted.
         if (req.headers['accept'] !== undefined) {
             this.getAccept(req.headers['accept']);
         } else {
@@ -172,13 +177,11 @@ class MimeUtil{
             a = apart.substr(0, apart.indexOf(';'));
         }
         a = a.trim();
-        if ( a == "" || a == "*/*" ) {
+        // Can 'a' ever be empty?
+        if ( a == "" ) {
             // This is not a violation:  4.3.2.2
             a = "application/ld+json";
         }
-        //else { 
-        //    a = a.replace('+', '%2B');
-        //}
         return a;
     }
     
