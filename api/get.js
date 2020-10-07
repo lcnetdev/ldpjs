@@ -13,7 +13,7 @@ class Get extends Method {
         console.log(this._uu);
     
         this._mu.getMimeInfo(req);
-        //console.log(this._mu);
+        console.log(this._mu);
     
         var mime = this._mu.mimeAccept; 
         if (mime.Accept !== undefined) {
@@ -33,59 +33,79 @@ class Get extends Method {
                         // 4.4.1.2
                         // 5.2.1.4
                         
-                        var config = this._config;
-                        var cu = new ContainerUtil(this._db);
-                        cu.containerContents(this._uu.uri)
-                            .then(docs => {
-                                var content = doc.versions[doc.versions.length - 1].content;
-                                var primaryresource;
-                                if (content["@graph"] !== undefined) {
-                                    primaryresource = content["@graph"].find(x => x["@id"] === this._uu.uri);
-                                } else { 
-                                    if (content["@id"] === undefined) {
-                                        content["@id"] = this._uu.uri;
+                        // What happens when you have an Accept value that 
+                        // doesn't match the content? 404?
+                        
+                        var version = doc.versions[doc.versions.length - 1];
+                        var content = version.content;
+                        if (mime.resourceType == "Unknown") {
+                            // This means the accept type was */*.  It depends
+                            // on the content.
+                            if (
+                                    version.ldpTypes.includes("<http://www.w3.org/ns/ldp#NonRDFSource>") || 
+                                    version.ldpTypes.includes("<http://www.w3.org/ns/ldp#NonRDFResource>")
+                                    ) {
+                                mime.resourceType = "NonRDF";
+                                mime.value = version.mimeType;
+                            }
+                        } else if (mime.resourceType == "NonRDF") {
+                            if (version.mimeType != mime.value) {
+                                return res.status(409).send("Conflict: Cannot render resource as " + mime.value + ".");
+                            }
+                        }
+                        
+                        if (mime.resourceType == "NonRDF") {
+                            var links = ['<http://www.w3.org/ns/ldp#NonRDFSource>;rel="type"'];
+                            res.set('Link', links);
+                            res.set('Content-Type', mime.value);
+                            res.status(200).send(content);
+                        } else {
+                            var config = this._config;
+                            var cu = new ContainerUtil(this._db);
+                            cu.containerContents(this._uu.uri)
+                                .then(docs => {
+                                    var primaryresource;
+                                    if (content["@graph"] !== undefined) {
+                                        primaryresource = content["@graph"].find(x => x["@id"] === this._uu.uri);
+                                    } else { 
+                                        if (content["@id"] === undefined) {
+                                            content["@id"] = this._uu.uri;
+                                        }
+                                        primaryresource = content;
                                     }
-                                    primaryresource = content;
-                                }
-
-                                if (docs.length > 0) {
-                                    primaryresource["ldp:contains"] = []
-                                    for (var d of docs) {
-                                        primaryresource["ldp:contains"].push({ "@id": d.uri.replace(this._uu.uribase, this._uu.hostbase) });
+    
+                                    if (docs.length > 0) {
+                                        primaryresource["ldp:contains"] = []
+                                        for (var d of docs) {
+                                            primaryresource["ldp:contains"].push({ "@id": d.uri.replace(this._uu.uribase, this._uu.hostbase) });
+                                        }
                                     }
-                                }
-                                var contentStr = content;
-
-                                if (mime.value != "application/xml") { 
+                                    var contentStr = content;
                                     contentStr = JSON.stringify(content, null, 2);
-                                }
-                                const toreplace = new RegExp(this._uu.uri, 'g')
-                                contentStr = contentStr.replace(toreplace, this._uu.puburi);
-                                var output = "";
 
-                                var links = ['<http://www.w3.org/ns/ldp#Resource>;rel="type"', '<http://www.w3.org/ns/ldp#Container>;rel="type"', '<http://www.w3.org/ns/ldp#BasicContainer>;rel="type"'];
-                                if (mime.resourceType == "NonRDF") {
-                                    links = ['<http://www.w3.org/ns/ldp#NonRDFSource>;rel="type"'];
-                                }
-                                res.set('Link', links);
-                                if (mime.value == "application/ld+json" || mime.value == "application/xml") {
-                                    res.set('Content-Type', mime.value);
-                                    res.status(200).send(contentStr);
-                                } else {
-                                    async function processOutput() {
-                                        if (mime.resourceType == "RDF") {
+                                    const toreplace = new RegExp(this._uu.uri, 'g')
+                                    contentStr = contentStr.replace(toreplace, this._uu.puburi);
+                                    var output = "";
+    
+                                    var links = ['<http://www.w3.org/ns/ldp#Resource>;rel="type"', '<http://www.w3.org/ns/ldp#Container>;rel="type"', '<http://www.w3.org/ns/ldp#BasicContainer>;rel="type"'];
+                                    res.set('Link', links);
+                                    if (mime.value == "application/ld+json") {
+                                        res.set('Content-Type', mime.value);
+                                        res.status(200).send(contentStr);
+                                    } else {
+                                        async function processOutput() {
                                             var c = new Converter(config);
                                             output = await c.convert('jsonld', mime.riot, contentStr);
                                             res.set('Content-Type', mime.value);
                                             res.status(200).send(output);
                                         }
+                                        processOutput();
                                     }
-                                    processOutput();
-                                }
-                            })
-                            .catch(err => {
-                                return res.status(500).send(err);
-                            });
+                                })
+                                .catch(err => {
+                                    return res.status(500).send(err);
+                                });   
+                        }
                     }
                 } else {
                     res.status(404).send("Not found");
