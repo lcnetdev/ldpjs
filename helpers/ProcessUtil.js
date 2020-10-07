@@ -43,6 +43,8 @@ class ProcessUtil{
             return version;
         } else {
             // We have a non RDF resource, either XML or JSON
+            //console.log(doc);
+            //console.log(typeof doc);
             if (mime.incoming == "json") { 
                 doc = JSON.parse(doc); 
             }
@@ -51,7 +53,7 @@ class ProcessUtil{
             version = {
                 v_created: modificationTime,
                 mimeType: saveMimetype,
-                ldpTypes: ["<http://www.w3.org/ns/ldp#NonRDFResource>"],
+                ldpTypes: ["<http://www.w3.org/ns/ldp#NonRDFSource>"],
                 content: doc,
             };
             return version;

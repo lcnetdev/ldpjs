@@ -5,7 +5,7 @@ class LinkUtil{
             if (mime.resourceType == "RDF" && !currentInteractionModel.includes("<http://www.w3.org/ns/ldp#BasicContainer>")) {
                 reject(res.status(409).send("Conflict: " + currentInteractionModel + " (Request would change interaction model.)"));
             }
-            if (mime.resourceType == "NonRDF" && !currentInteractionModel.includes("<http://www.w3.org/ns/ldp#NonRDFResource>")) {
+            if (mime.resourceType == "NonRDF" && !currentInteractionModel.includes("<http://www.w3.org/ns/ldp#NonRDFSource>")) {
                 reject(res.status(409).send("Conflict: " + currentInteractionModel + " (Request would change interaction model.)"));
             }
             resolve(currentInteractionModel);

@@ -36,7 +36,7 @@ class Post extends Method {
             .then(doc => {
                 if (doc) {
                     let currentInteractionModel = doc.versions[doc.versions.length - 1].ldpTypes;
-                    if (currentInteractionModel.includes("<http://www.w3.org/ns/ldp#NonRDFResource>")) {
+                    if (currentInteractionModel.includes("<http://www.w3.org/ns/ldp#NonRDFSource>")) {
                         res.status(409).send("Conflict: " + mu.links + " (Mis-matched interaction model)");
                     }
 
