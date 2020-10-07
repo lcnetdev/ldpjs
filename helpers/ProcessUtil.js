@@ -73,7 +73,7 @@ class ProcessUtil{
     }
     
     static addDescriptionURI(uu, body, incomingType) {
-        if (body === "" || Object.keys(body).length === 0) {
+        if (body === "{}" || body === "" || Object.keys(body).length === 0) {
             body = '<' + uu.uri + '> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Resource> .';
         } else if (incomingType == "ntriples" || incomingType == "turtle") {
             // Normalize the URI of the incoming description.
