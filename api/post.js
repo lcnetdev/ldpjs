@@ -94,7 +94,14 @@ class Post extends Method {
             console.log(e);
             res.status(500).send("Server error: RDF conversion error.  Malformed RDF?");
         }
-        var doc = ProcessUtil.createDocument(this._uu, version);
+        try {
+            console.log(version);
+            var index = await this._config.createIndexDoc(version);
+        } catch(e) {
+            console.log(e);
+            res.status(500).send("Server error: Index conversion error (createIndexDoc).");
+        }
+        var doc = ProcessUtil.createDocument(this._uu, version, index);
                                             
         this._collection.insertOne(doc, {})
             .then(result => {
