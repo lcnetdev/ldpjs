@@ -10,10 +10,10 @@ class Get extends Method {
     
     process(req, res) {
         this._uu.getUriInfo(req);
-        console.log(this._uu);
+        //console.log(this._uu);
     
         this._mu.getMimeInfo(req);
-        console.log(this._mu);
+        //console.log(this._mu);
     
         var mime = this._mu.mimeAccept; 
         if (mime.Accept !== undefined) {
@@ -44,6 +44,10 @@ class Get extends Method {
                             if (version.ldpTypes.includes("<http://www.w3.org/ns/ldp#NonRDFSource>")) {
                                 mime.resourceType = "NonRDF";
                                 mime.value = version.mimeType;
+                            } else { 
+                                // Let's assume it is an RDFSource.
+                                mime.resourceType = "RDF";
+                                mime.value = version.mimeType;
                             }
                         } else if (mime.resourceType == "NonRDF") {
                             if (version.mimeType != mime.value) {
@@ -59,6 +63,18 @@ class Get extends Method {
                             var links = ['<http://www.w3.org/ns/ldp#NonRDFSource>;rel="type"'];
                             res.set('Link', links);
                             res.set('Content-Type', mime.value);
+                            // This is a hack to JSONify embedded JSONLD Expanded RDF.
+                            // There is a corresponding hack in ProcessUtils that 
+                            // stringifies this on the way in.  See not in that file.
+                            if (mime.value == "application/json") {
+                                if (content.rdf !== undefined) {
+                                    try {
+                                        content.rdf = JSON.parse(content.rdf);
+                                    } catch(e) {
+                                        console.log("Tried to parse content.rdf.  It failed.  Maybe not JSON?");
+                                    }
+                                }
+                            }
                             res.status(200).send(content);
                         } else {
                             var config = this._config;
