@@ -19,7 +19,7 @@ class ProcessUtil{
     static async createVersion(config, mime, body) {
         //var create = async function() {
 
-        console.log(mime);
+        //console.log(mime);
         
         let saveMimetype = ProcessUtil.getSaveMimetype(mime);
         let modificationTime = new Date().toISOString();
@@ -47,6 +47,14 @@ class ProcessUtil{
             //console.log(typeof doc);
             if (mime.incoming == "json") { 
                 doc = JSON.parse(doc); 
+            }
+            // Mongo cannot, at this time, store keys with periods/dots (.) in them.
+            // These are common in namespaces and are present in keys of JSONLD
+            // expanded.  So this is a hack for a specific problem.
+            // Could make this a config thing or remove it once it is no
+            // longer needed.
+            if (doc.rdf !== undefined && typeof doc.rdf === "object") {
+                doc.rdf = JSON.stringify(doc.rdf);
             }
             // Consider 4.2.4.1 (note 4.2.4.3)
             // IF ldp:contains present, 5.2.4.1
