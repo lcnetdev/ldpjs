@@ -27,6 +27,8 @@ class Get extends Method {
                         var jsonstr = JSON.stringify(doc, null, 2);
                         res.set('Content-Type', 'application/json');
                         res.status(200).send(jsonstr);
+                    } else if (mime.value == "application/activity+json") {
+                        
                     } else {
                         // Need to handle:
                         // 4.2.1.4
@@ -52,7 +54,10 @@ class Get extends Method {
                         } else if (mime.resourceType == "NonRDF") {
                             if (version.mimeType != mime.value) {
                                 if ( this._mu.accepts.find(x => x.value === '*/*') !== undefined) {
-                                    mime.value = version.mimeType;
+                                    if (this._mu.mimes[version.mimeType] !== undefined) {
+                                        mime = this._mu.mimes[version.mimeType];
+                                        mime.value = version.mimeType;
+                                    }
                                 } else {
                                     return res.status(409).send("Conflict: Cannot render resource as " + mime.value + ".");
                                 }
