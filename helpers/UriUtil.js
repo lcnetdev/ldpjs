@@ -80,7 +80,7 @@ class UriUtil {
             this.docuri = docuri;
         
             var path_parts = this.uripath.split('/');
-            console.log(path_parts);
+            //console.log(path_parts);
     
             // Set up defaults, but only PUT needs to know the container.
             var containeruri = this.uribase + "/";
