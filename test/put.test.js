@@ -19,7 +19,7 @@ describe('PUT /ldp/tests/1', function() {
         })
         .catch(err => {
           if (err) console.log(err);
-           deleteResource('/ldp/tests/1');
+          done();
         });
       });
     });
@@ -33,7 +33,7 @@ describe('GET /ldp/tests/1', function() {
         .expect(200)
         .expect('Content-Type', /rdf\+xml/) 
         .expect(response => {
-            response.text.indexOf('<bf:WorK rdf:about=');
+            response.text.indexOf('<bf:Work rdf:about=');
         })
         .end(function(err, res) {
           if (err) return console.log(err);
@@ -71,7 +71,7 @@ describe('PUT /ldp/tests/1', function() {
         })
         .catch(err => {
           if (err) console.log(err);
-           deleteResource('/ldp/tests/1');
+          done();
         });
     });
 });
