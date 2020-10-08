@@ -12,7 +12,6 @@ var config = {
         var index = {};
         
         if (version.content.configType !== undefined) {
-            console.log("Found configType");
             // This is a 'config' thing.  A profile, probably.
             index.resourceType = version.content.configType;
             if (version.content.name !== undefined) {
@@ -22,7 +21,6 @@ var config = {
         
         if (version.content.rdf) {
             // We have a verso resource.
-            console.log("Found Resource.");
             index.resourceType = "resource";
             if (version.content.profile !== undefined) {
                 index.profile = version.content.profile;
@@ -30,9 +28,6 @@ var config = {
             var rdf = JSON.parse(version.content.rdf);
             
         }
-        
-        console.log("index ran");
-        console.log(index);
         return index;
     }
 };
