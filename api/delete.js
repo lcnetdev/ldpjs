@@ -1,7 +1,5 @@
 const Method = require("./method");
 
-var ContainerUtil = require("../helpers/ContainerUtil");
-
 class Delete extends Method {
     constructor(config) {
         super(config);
@@ -9,7 +7,7 @@ class Delete extends Method {
     
     process(req, res) {
         this._uu.getUriInfo(req);
-        console.log(this._uu);
+        //console.log(this._uu);
 
         if (this._uu.uripath == '/' || this._uu.uripath == '') {
             return res.status(200).send("Cannot delete root node.");
