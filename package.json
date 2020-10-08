@@ -4,13 +4,14 @@
   "description": "LDP Server",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --exit"
+    "test": "./node_modules/.bin/mocha --timeout 3000 --exit"
   },
   "author": "Kevin Ford",
   "license": "CC0-1.0",
   "dependencies": {
     "body-parser": "^1.19.0",
     "chai": "^4.2.0",
+    "compression": "^1.7.4",
     "express": "^4.17.1",
     "jsonld": "^3.1.1",
     "mocha": "^8.1.3",
