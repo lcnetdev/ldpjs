@@ -24,6 +24,7 @@ ldp.use(bodyParser.urlencoded({ extended: true }));
 
 ldp.use(bodyParser.text({ type: 'application/ld+json' }));
 ldp.use(bodyParser.text({ type: 'application/json' }));
+ldp.use(bodyParser.text({ type: 'application/x-mongoquery+json' }));
 
 ldp.use(bodyParser.text({ type: 'text/plain' }));
 ldp.use(bodyParser.text({ type: 'application/n-triples' }));
