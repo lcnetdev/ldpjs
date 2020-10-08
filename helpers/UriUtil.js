@@ -91,15 +91,15 @@ class UriUtil {
                 //const ok = this._findContainer(path_parts, containeruri);
                 for (var i = path_parts.length - 1; i >= 0; i--) {
                     var checkuri = path_parts.slice(0, i).join('/');
-                    console.log("checkuri: " + checkuri);
+                    //console.log("checkuri: " + checkuri);
                     if (checkuri == '') { break; }
                     if (containeruri != this.uribase + '/') { break; }
                     var checkdocuri = checkuri + '.json';
-                    console.log("Checking: " + checkdocuri)
+                    //console.log("Checking: " + checkdocuri)
                     
                     var doc = this._findContainer(checkdocuri);
                     if (doc) {
-                        console.log("Found")
+                        //console.log("Found")
                         containerpath = checkuri;
                         containeruri = this.uribase + containerpath;
                         containerdocuri = checkdocuri;
