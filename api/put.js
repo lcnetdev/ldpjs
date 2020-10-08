@@ -1,6 +1,5 @@
 const Method = require("./method");
 
-var ContainerUtil = require("../helpers/ContainerUtil");
 var LinkUtil = require("../helpers/LinkUtil");
 var ProcessUtil = require("../helpers/ProcessUtil");
 
@@ -12,9 +11,12 @@ class Put extends Method {
     process(req, res) {
         
         this._body = req.body;
+        if (typeof this._body === "object") {
+            this._body = JSON.stringify(this._body);
+        }
         
         this._uu.getUriInfo(req);
-        console.log(this._uu);
+        //console.log(this._uu);
     
         this._mu.getMimeInfo(req);
         
@@ -60,7 +62,7 @@ class Put extends Method {
                             this._collection.updateOne(
                                 { _id: doc._id },
                                 { 
-                                    $set: { modified: version.created, index: index },
+                                    $set: { modified: version.v_created, index: index },
                                     $push: { versions: version }
                                 }
                             )
