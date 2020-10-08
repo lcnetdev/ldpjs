@@ -1,6 +1,7 @@
 'esversion: 8';
 
 const express = require('express');
+const compression = require('compression');
 const bodyParser= require('body-parser');
 var mongodb = require('mongodb');
 
@@ -14,6 +15,8 @@ var Delete = require("./api/Delete");
 var AdminIndexes = require("./admin/Indexes");
 
 const ldp = express();
+
+ldp.use(compression());
 
 ldp.use(bodyParser({limit: '50mb'}));
 
