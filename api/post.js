@@ -14,6 +14,8 @@ class Post extends Method {
     
     process(req, res) {
 
+        console.log(typeof req.body);
+        console.log(req.body);
         this._body = req.body;
         if (typeof this._body === "object") {
             this._body = JSON.stringify(this._body);
@@ -53,6 +55,10 @@ class Post extends Method {
                         
                         // Just going to reassign the body.
                         this._body = req.body;
+                        if (typeof this._body === "string") {
+                            this._body = JSON.parse(this._body);
+                        }
+                        /*
                         this._body = [
                             { $match: {"resource.modified": {"$gte": new Date("2020-10-08T14:45:00.000Z")} } },
                             { $sort : {"resource.modified": -1 } }
@@ -61,6 +67,7 @@ class Post extends Method {
                             { $match: {"resource.index.catalogerid": "jjud"} },
                             { $sort : {"resource.modified": -1 } }
                         ]
+                        */
                         var cu = new ContainerUtil(this._config);
                         cu.queryContainer(this._uu.containeruri, this._body)
                             .then(docs => {
