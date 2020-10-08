@@ -83,7 +83,7 @@ class Get extends Method {
                             res.status(200).send(content);
                         } else {
                             var config = this._config;
-                            var cu = new ContainerUtil(this._db);
+                            var cu = new ContainerUtil(config);
                             cu.containerContents(this._uu.uri)
                                 .then(docs => {
                                     var primaryresource;

@@ -73,6 +73,11 @@ class MimeUtil{
                 "incoming": "json",
                 "resourceType": "NonRDF",
             },
+            "application/x-mongoquery+json": {
+                "value": "application/x-mongoquery+json",
+                "incoming": "json",
+                "resourceType": "NonRDF",
+            },
             "*/*": {
                 "resourceType": "Unknown",
             },
