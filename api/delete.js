@@ -13,31 +13,20 @@ class Delete extends Method {
             return res.status(200).send("Cannot delete root node.");
         } else {
             
+            const containerUriRegex = new RegExp('^' + this._uu.uri);
             this._collection.aggregate( [
-                { $match: { "docuri": this._uu.docuri } },
-                {
-                    $graphLookup: {
-                        from: "resources",
-                        startWith: "$uri",
-                        connectFromField: "uri",
-                        connectToField: "containedIn",
-                        as: "containers"
-                    }
-                },
+                { $match: { "containedIn" : { $regex : containerUriRegex, $options: 'i' } } },
                 { 
                     $project: {
                         "uri": 1,
-                        "containers": "$containers.uri"
                     }
                 }
             ]).toArray()
                 .then(results => {
-                    var uris = [this._uu.uri]
-                    var our_resource = results.find(x => x["uri"] === this._uu.uri);
-                    if (our_resource !== undefined) {
-                        uris = uris.concat(our_resource.containers);
-                    }
-    
+                    var uris = [this._uu.uri];
+                    results.forEach(function(r) {
+                        uris.push(r.uri);
+                    })
                     this._collection.deleteMany({ uri: { $in: uris }})
                         .then(result => {
                             if (result.deletedCount > 0) {
