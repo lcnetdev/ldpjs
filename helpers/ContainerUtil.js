@@ -28,10 +28,15 @@ class ContainerUtil {
         var db = this._db;
         var collection = this._collection;
         var collectionName = this._collectionName
+        const containerUriRegex = new RegExp('^' + containeruri);
         return new Promise(function(resolve,reject){
-            collection
+            try {
+                collection
                 .aggregate( [
-                    { $match: { "uri": containeruri } },
+                    { $match: { "containedIn" : { $regex : containerUriRegex, $options: 'i' } } },
+                    /*
+                    Runs out or memory.  That's ok, since it looks like a straight up regex match
+                    will work and we can dispense with this fanciness.
                     {
                         $graphLookup: {
                             from: collectionName,
@@ -42,8 +47,11 @@ class ContainerUtil {
                         }
                     },
                     { $unwind: "$resource" },
+                    */
+                    
                     ...queryParams,
-                    { $replaceRoot: { "newRoot": "$resource" } }
+                    
+                    //{ $replaceRoot: { "newRoot": "$resource" } }
                     
                 ]).toArray(function(err, res) {
                     if (err) {
@@ -51,6 +59,9 @@ class ContainerUtil {
                     }
                     resolve(res);
                 });
+            } catch(e) {
+                console.log(e);
+            }
         });
     }
 
