@@ -14,8 +14,6 @@ class Post extends Method {
     
     process(req, res) {
 
-        console.log(typeof req.body);
-        console.log(req.body);
         this._body = req.body;
         if (typeof this._body === "object") {
             this._body = JSON.stringify(this._body);
@@ -71,10 +69,11 @@ class Post extends Method {
                         var cu = new ContainerUtil(this._config);
                         cu.queryContainer(this._uu.containeruri, this._body)
                             .then(docs => {
-                                
+
                                 var results = [];
                                 
-                                const toreplace = new RegExp(this._uu.uribase, 'g')
+                                try { 
+                                    const toreplace = new RegExp(this._uu.uribase, 'g')
                                 for (var d of docs) {
                                     var version = d.versions[d.versions.length - 1];
                                     var content = version.content;
@@ -82,6 +81,14 @@ class Post extends Method {
                                         var contentStr = JSON.stringify(content, null, 2);
                                         contentStr = contentStr.replace(toreplace, this._uu.hostbase);
                                         content = JSON.parse(contentStr);
+                                    } else if (version.mimeType == "application/json") {
+                                        if (content.rdf !== undefined) {
+                                            try {
+                                                content.rdf = JSON.parse(content.rdf);
+                                            } catch(e) {
+                                                console.log("Tried to parse content.rdf.  It failed.  Maybe not JSON?");
+                                            }
+                                        }
                                     }
                                     var hit = {
                                         modified: version.v_created,
@@ -99,6 +106,9 @@ class Post extends Method {
                                 
                                 res.set('Content-Type', "application/json");
                                 res.status(200).send(response);
+                                } catch(e) {
+                                    throw e;
+                                }
                             })
                             .catch(err => {
                                 console.log(err);
