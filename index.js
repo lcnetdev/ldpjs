@@ -8,11 +8,11 @@ var mongodb = require('mongodb');
 var config = require("./config/index");
 
 var Get = require("./api/get");
-var Put = require("./api/Put");
-var Post = require("./api/Post");
-var Delete = require("./api/Delete");
+var Put = require("./api/put");
+var Post = require("./api/post");
+var Delete = require("./api/pelete");
 
-var AdminIndexes = require("./admin/Indexes");
+var AdminIndexes = require("./admin/indexes");
 
 const ldp = express();
 
