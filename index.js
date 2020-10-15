@@ -10,7 +10,7 @@ var config = require("./config/index");
 var Get = require("./api/get");
 var Put = require("./api/put");
 var Post = require("./api/post");
-var Delete = require("./api/pelete");
+var Delete = require("./api/delete");
 
 var AdminIndexes = require("./admin/indexes");
 
