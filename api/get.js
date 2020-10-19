@@ -64,10 +64,18 @@ class Get extends Method {
                             }
                         }
                         
+                        var commonHeaders = this._headers.getCommonHeaders();
                         if (mime.resourceType == "NonRDF") {
                             var links = ['<http://www.w3.org/ns/ldp#NonRDFSource>;rel="type"'];
                             res.set('Link', links);
                             res.set('Content-Type', mime.value);
+                            
+                            for (var c in commonHeaders) {
+                                if (c != "Accept-post") {
+                                    res.set(c, commonHeaders[c].replace('POST,', ''));
+                                }
+                            }
+        
                             // This is a hack to JSONify embedded JSONLD Expanded RDF.
                             // There is a corresponding hack in ProcessUtils that 
                             // stringifies this on the way in.  See not in that file.
@@ -108,7 +116,12 @@ class Get extends Method {
                                     const toreplace = new RegExp(this._uu.uri, 'g')
                                     contentStr = contentStr.replace(toreplace, this._uu.puburi);
                                     var output = "";
-    
+                                    
+                                    for (var c in commonHeaders) {
+                                        res.set(c, commonHeaders[c].replace('application/xml, application/json,', ''));
+                                    }
+                                    res.set('Vary', "Prefer, Accept, Accept-Encoding");
+                                    
                                     var links = ['<http://www.w3.org/ns/ldp#Resource>;rel="type"', '<http://www.w3.org/ns/ldp#Container>;rel="type"', '<http://www.w3.org/ns/ldp#BasicContainer>;rel="type"'];
                                     res.set('Link', links);
                                     if (mime.value == "application/ld+json") {

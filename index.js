@@ -11,6 +11,7 @@ var Get = require("./api/get");
 var Put = require("./api/put");
 var Post = require("./api/post");
 var Delete = require("./api/delete");
+var Options = require("./api/options");
 
 var AdminIndexes = require("./admin/indexes");
 
@@ -146,6 +147,11 @@ MongoClient.connect(config.mongodb.conn, function(err, client) {
          
     ldp.delete('/*', (req, res) => {
         var api = new Delete(config);
+        api.process(req, res);
+    });
+    
+    ldp.options('/*', (req, res) => {
+        var api = new Options(config);
         api.process(req, res);
     });
     

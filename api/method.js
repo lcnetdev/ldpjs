@@ -1,5 +1,6 @@
 var UriUtil = require("../helpers/UriUtil");
 var MimeUtil = require("../helpers/MimeUtil");
+var Headers = require("../helpers/Headers");
 
 class Method {
     constructor(config) {
@@ -9,6 +10,7 @@ class Method {
         
         this._uu = new UriUtil(this._db);
         this._mu = new MimeUtil();
+        this._headers = new Headers();
         
         this._body = "";
     }
