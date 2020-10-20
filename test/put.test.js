@@ -5,7 +5,7 @@ var assert = require('assert');
 var app = require('../server.js');
 const fs = require('fs');  
 
-describe('PUT /ldp/tests/1', function() {
+describe('PUT n-triples at /ldp/tests/1', function() {
   it('responds with 201 Created', function(done) {
     fs.readFile(__dirname + "/data/21026276.bibframe.nt", 'utf8',  (err, data) => {
         if (err) throw err;
@@ -25,7 +25,7 @@ describe('PUT /ldp/tests/1', function() {
     });
 });
 
-describe('GET /ldp/tests/1', function() {
+describe('GET /ldp/tests/1 as RDF/XML', function() {
   it('responds with 200', function(done) {
     request(app)
         .get('/ldp/tests/1')
@@ -42,7 +42,7 @@ describe('GET /ldp/tests/1', function() {
       });
 });
 
-describe('GET /ldp/tests/1', function() {
+describe('GET /ldp/tests/1 as n-triples', function() {
   it('responds with 200', function(done) {
     request(app)
         .get('/ldp/tests/1')
@@ -59,7 +59,7 @@ describe('GET /ldp/tests/1', function() {
       });
 });
 
-describe('PUT /ldp/tests/1', function() {
+describe('PUT (update) /ldp/tests/1', function() {
   it('responds with 204 Updated', function(done) {
     request(app)
         .put('/ldp/tests/1')
@@ -76,7 +76,7 @@ describe('PUT /ldp/tests/1', function() {
     });
 });
 
-describe('GET /ldp/tests/1', function() {
+describe('GET /ldp/tests/1 - check update succeeded', function() {
   it('responds with 200', function(done) {
     request(app)
         .get('/ldp/tests/1')
