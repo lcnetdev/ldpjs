@@ -20,6 +20,8 @@ class Put extends Method {
     
         this._mu.getMimeInfo(req);
         
+        this.preferences = this._headers.getPreferHeaders(req.headers);
+        
         LinkUtil.validateLinks(this._mu, res)
             .then(data => {
                 this._mu = data;
@@ -59,12 +61,25 @@ class Put extends Method {
                     LinkUtil.checkInteractionModel(currentInteractionModel, mime, res)
                         .then(data => {
                             let modificationTime = new Date().toISOString();
-                            this._collection.updateOne(
-                                { _id: doc._id },
+                            var updateObj = 
                                 { 
                                     $set: { modified: version.v_created, index: index },
                                     $push: { versions: version }
-                                }
+                                };
+                            if (!this.preferences.version) {
+                                res.set('Preference-applied', "version=0");
+                                doc.versions[doc.versions.length - 1] = version;
+                                updateObj = {
+                                    $set: { 
+                                        modified: version.v_created, 
+                                        index: index,
+                                        versions: doc.versions
+                                    },
+                                };
+                            }
+                            this._collection.updateOne(
+                                { _id: doc._id },
+                                updateObj
                             )
                             .then(function(result) {
                                 res.status(204).send();
@@ -75,6 +90,7 @@ class Put extends Method {
                             });    
                         })
                         .catch(http_response => {
+                            console.log(http_response);
                             http_response;
                         });
                 } else {
