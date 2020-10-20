@@ -51,7 +51,7 @@ class Get extends Method {
                                 mime.resourceType = "RDF";
                                 mime.value = version.mimeType;
                             }
-                        } else if (mime.resourceType == "NonRDF") {
+                        } else if (mime.resourceType == "NonRDF" || version.ldpTypes.includes("<http://www.w3.org/ns/ldp#NonRDFSource>")) {
                             if (version.mimeType != mime.value) {
                                 if ( this._mu.accepts.find(x => x.value === '*/*') !== undefined) {
                                     if (this._mu.mimes[version.mimeType] !== undefined) {
