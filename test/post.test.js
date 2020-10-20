@@ -118,17 +118,22 @@ describe('POST /ldp/tests/t1', function() {
     });
 });
 
-describe('POST /ldp/tests/t1', function() {
+describe('POST JSON document to /ldp/tests/t1', function() {
   it('responds with 201 Created', function(done) {
-    request(app)
-        .post('/ldp/tests/t1')
-        .expect(201)
-        .then(response => {
-          done();
-        })
-        .catch(err => {
-          if (err) return console.log(err);
-          done();
+    fs.readFile(__dirname + "/data/profile.json", 'utf8',  (err, data) => {
+        if (err) throw err;
+        request(app)
+            .post('/ldp/tests/t1')
+            .send(data)
+            .set('Content-type', 'application/json')
+            .expect(201)
+            .then(response => {
+              done();
+            })
+            .catch(err => {
+              if (err) return console.log(err);
+              done();
+            });
         });
     });
 });
