@@ -90,6 +90,7 @@ class Get extends Method {
                             }
                             res.status(200).send(content);
                         } else {
+                            var preferences = this._headers.getPreferHeaders(req.headers);
                             var config = this._config;
                             var cu = new ContainerUtil(config);
                             cu.containerContents(this._uu.uri)
@@ -103,8 +104,33 @@ class Get extends Method {
                                         }
                                         primaryresource = content;
                                     }
-    
-                                    if (docs.length > 0) {
+                                    
+                                    /* 
+                                        If include MiminalContainer, then no contains triples.
+                                        If omit Containment, then no contains triples.
+                                        if omit MinimalContainer, then contains triples.
+                                    */
+                                    var includeContainmentTriples = true;
+                                    if (preferences.omit !== undefined) {
+                                        if (preferences.omit.indexOf("http://www.w3.org/ns/ldp#PreferContainment") > -1) {
+                                            res.set('Preference-applied', "return=representation");
+                                            includeContainmentTriples = false;
+                                        } else if (preferences.include.indexOf("http://www.w3.org/ns/ldp#PreferMinimalContainer") > -1) {
+                                            // If this Prefer header is set, let's acknowledge it.
+                                            res.set('Preference-applied', "return=representation");
+                                        }
+                                    }
+                                    if (preferences.include !== undefined) {
+                                        if (preferences.include.indexOf("http://www.w3.org/ns/ldp#PreferMinimalContainer") > -1) {
+                                            res.set('Preference-applied', "return=representation");
+                                            includeContainmentTriples = false;
+                                        } else if (preferences.include.indexOf("http://www.w3.org/ns/ldp#PreferContainment") > -1) {
+                                            // If this Prefer header is set, let's acknowledge it.
+                                            res.set('Preference-applied', "return=representation");
+                                        }
+                                    }
+                                    
+                                    if (includeContainmentTriples && docs.length > 0) {
                                         primaryresource["ldp:contains"] = []
                                         for (var d of docs) {
                                             primaryresource["ldp:contains"].push({ "@id": d.uri.replace(this._uu.uribase, this._uu.hostbase) });
