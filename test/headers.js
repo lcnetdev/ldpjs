@@ -148,6 +148,25 @@ describe('GET /ldp/tests/1', function() {
   });
 });
 
+describe('PUT (update) /ldp/tests/1 but do not version', function() {
+  it('responds with 204 Updated and Preference-applied', function(done) {
+    request(app)
+        .put('/ldp/tests/1')
+        .send("<> <http://purl.org/dc/terms/title> 't1' . ")
+        .set('Prefer', 'version=0')
+        .set('Content-type', 'text/plain')
+        .expect(204)
+        .expect('Preference-applied', /version=0/)
+        .then(response => {
+          done();
+        })
+        .catch(err => {
+          if (err) console.log(err);
+          done();
+        });
+    });
+});
+
 describe('POST JSON document to /ldp/tests/', function() {
   it('responds with 201 Created', function(done) {
     fs.readFile(__dirname + "/data/profile.json", 'utf8',  (err, data) => {
