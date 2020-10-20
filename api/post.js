@@ -31,7 +31,6 @@ class Post extends Method {
             It therefore 1) needs to exist and 2) it needs to be a container, 
             which is to say it should not be a NonRDFSouce.
         */
-        
         this._collection.findOne( { docuri: { $exists: true, $eq: this._uu.containerdocuri } } )
             .then(doc => {
                 if (doc) {

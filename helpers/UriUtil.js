@@ -39,7 +39,7 @@ class UriUtil {
         
         var uri = '/';
         var docuri = '/root.json';
-        if (path != '') {
+        if (path != '' && path != '/') {
             uri = path;
             docuri = path + ".json";
         }
@@ -55,6 +55,10 @@ class UriUtil {
 
             containerpath = uri;
             containerdocuri = containerpath +  ".json";
+            if (containerpath == '' || containerpath == '/') {
+                containerpath = '/';
+                containerdocuri = '/root.json';
+            }
             containeruri = this.uribase + containerpath;
             
             if (!uri.endsWith('/')) {
