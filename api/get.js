@@ -24,6 +24,9 @@ class Get extends Method {
             .then(doc => {
                 if (doc) {
                     if (mime.value == "application/x-mongodoc+json") {
+                        
+                        // for (var key in doc) { console.log(key + ': ' + typeof doc[key]) }
+                        
                         var jsonstr = JSON.stringify(doc, null, 2);
                         res.set('Content-Type', 'application/json');
                         res.status(200).send(jsonstr);
@@ -139,6 +142,7 @@ class Get extends Method {
                                     var contentStr = content;
                                     contentStr = JSON.stringify(content, null, 2);
 
+                                    //console.log(this._uu);
                                     const toreplace = new RegExp(this._uu.uri, 'g')
                                     contentStr = contentStr.replace(toreplace, this._uu.puburi);
                                     var output = "";
