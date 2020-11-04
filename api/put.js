@@ -60,7 +60,6 @@ class Put extends Method {
                     let currentInteractionModel = doc.versions[doc.versions.length - 1].ldpTypes;
                     LinkUtil.checkInteractionModel(currentInteractionModel, mime, res)
                         .then(data => {
-                            let modificationTime = new Date().toISOString();
                             var updateObj = 
                                 { 
                                     $set: { modified: version.v_created, index: index },
