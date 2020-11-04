@@ -23,6 +23,7 @@ class ProcessUtil{
         
         let saveMimetype = ProcessUtil.getSaveMimetype(mime);
         let modificationTime = new Date();
+        modificationTime = modificationTime.toISOString();
         
         var doc = body;
         var version = {};
@@ -31,6 +32,8 @@ class ProcessUtil{
                 var c = new Converter(config);
                 var docStr = c.convert(mime.riot, "JSONLD", body);
                 doc = JSON.parse(docStr); 
+            } else {
+                doc = JSON.parse(doc); 
             }
             const compacted = await jsonld.compact(doc, config.context);
 
@@ -88,8 +91,8 @@ class ProcessUtil{
         } else if (incomingType == "jsonld") {
             // How is this done?
             // Both here are untested.
-            body = body.replace(/"@id": ""/g, '"@id": "' + uu.uri + '"');
-            body = body.replace(/"@id": "' + uu.hostbase + uu.uripath + '"/g, '"@id": "' + uu.uri + '"');
+            body = body.replace(/"@id":\s?""/g, '"@id": "' + uu.uri + '"');
+            body = body.replace(/"@id":\s?"' + uu.hostbase + uu.uripath + '"/g, '"@id": "' + uu.uri + '"');
         }
         return body;
     }
@@ -116,7 +119,10 @@ class ProcessUtil{
             }
         } else if (incomingType == "jsonld") {
             // How is this done?
-            return true;
+            console.log(body);
+            if ( body.indexOf('"@id": "' + uri + '"') !== -1) {
+                return true;
+            }
         }
         return false;
     }
