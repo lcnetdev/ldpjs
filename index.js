@@ -40,10 +40,15 @@ const MongoClient = require('mongodb').MongoClient;
 var db, collection;
 
 ldp.setConfig = function(overlay_config) {
-    if (overlay_config.indexes !== undefined && overlay_config.indexes.length > 0) {
-        Object.assign(config.indexes, overlay_config.indexes);
+    for (var k in config) {
+        if (overlay_config[k] !== undefined) {
+            if (typeof config[k] === "string") {
+                config[k] = overlay_config[k];
+            } else {
+                Object.assign(config[k], overlay_config[k]);
+            }
+        }
     }
-    config = Object.assign(config, overlay_config);
 };
 
 MongoClient.connect(config.mongodb.conn, function(err, client) {
