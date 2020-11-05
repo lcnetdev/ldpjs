@@ -42,13 +42,14 @@ var db, collection;
 ldp.setConfig = function(overlay_config) {
     for (var k in config) {
         if (overlay_config[k] !== undefined) {
-            if (typeof config[k] === "string") {
+            if (typeof config[k] === "string" || typeof config[k] === "function") {
                 config[k] = overlay_config[k];
             } else {
                 Object.assign(config[k], overlay_config[k]);
             }
         }
     }
+    console.log(config.createIndexDoc);
 };
 
 MongoClient.connect(config.mongodb.conn, function(err, client) {
