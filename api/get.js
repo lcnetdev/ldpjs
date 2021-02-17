@@ -1,3 +1,5 @@
+const jsonld = require("jsonld");
+
 const Method = require("./method");
 
 var Converter = require("../helpers/Converter");
@@ -16,9 +18,12 @@ class Get extends Method {
         //console.log(this._mu);
     
         var mime = this._mu.mimeAccept; 
+        //console.log(mime);
         if (mime.Accept !== undefined) {
             return res.status(400).send("Bad request: " + this._mu.mimeAccept.Accept);
         }
+        
+        //console.log(this._uu);
     
         this._collection.findOne( { docuri: { $exists: true, $eq: this._uu.docuri } } )
             .then(doc => {
@@ -155,8 +160,25 @@ class Get extends Method {
                                     var links = ['<http://www.w3.org/ns/ldp#Resource>;rel="type"', '<http://www.w3.org/ns/ldp#Container>;rel="type"', '<http://www.w3.org/ns/ldp#BasicContainer>;rel="type"'];
                                     res.set('Link', links);
                                     if (mime.value == "application/ld+json") {
-                                        res.set('Content-Type', mime.value);
-                                        res.status(200).send(contentStr);
+                                        if (mime.profile != "") {
+                                            async function processOutput() {
+                                                var jsonld_obj = JSON.parse(contentStr);
+                                                var output = jsonld_obj;
+                                                if (mime.profile == "http://www.w3.org/ns/json-ld#expanded") {
+                                                    output = await jsonld.expand(jsonld_obj);
+                                                } else if (mime.profile == "http://www.w3.org/ns/json-ld#flattened") {
+                                                    output = await jsonld.flatten(jsonld_obj);
+                                                } else if (mime.profile == "http://www.w3.org/ns/json-ld#compacted") {
+                                                    output = await jsonld.compact(jsonld_obj["@graph"], jsonld_obj["@context"]);
+                                                }
+                                                res.set('Content-Type', mime.value);
+                                                res.status(200).send(JSON.stringify(output, null, 2));
+                                            }
+                                            processOutput();
+                                        } else {
+                                            res.set('Content-Type', mime.value);
+                                            res.status(200).send(contentStr);
+                                        }
                                     } else {
                                         async function processOutput() {
                                             var c = new Converter(config);
