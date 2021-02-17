@@ -8,7 +8,7 @@ class UriUtil {
         var hostbase, uribase, uripath, uri, puburi, docuri, location, 
             containeruri, containerdocuri, containerpath, containerisroot;
     }
-    
+
     getUriInfo(req) {
         var protocol = "http";
         if (req.httpsVersion !== undefined) {
@@ -28,7 +28,7 @@ class UriUtil {
         } else if (protocol == "https" && port != "443") {
             portStr = ":" + port;
         }
-        this.hostbase = protocol + "://" + hostname + portStr + "/ldp";
+        this.hostbase = protocol + "://" + hostname + portStr + req.baseUrl;
     
         this.uribase = "info:lc";
         
@@ -43,134 +43,126 @@ class UriUtil {
             uri = path;
             docuri = path + ".json";
         }
+        
+        this.uri = this.uribase + uri;
+        this.puburi = this.hostbase + uri;
+        this.docuri = docuri;
 
-        if (req.method == "POST") {
-            /*
-                POST requests are different.  If the immediate parent doesn't exist, 
-                then the request needs to eventually fail.
-                So we don't want to find the existing containter.  We need to
-                operate on the assumption that the immediate parent is its
-                parent.
-            */
-
-            containerpath = uri;
-            containerdocuri = containerpath +  ".json";
-            if (containerpath == '' || containerpath == '/') {
-                containerpath = '/';
-                containerdocuri = '/root.json';
-            }
-            containeruri = this.uribase + containerpath;
+        // Set up defaults, but only PUT needs to know the container.
+        // POST will rewrite the container paths.
+        // These will be set for GET and DELETE, but they are not used.
+        var containeruri = this.uribase + "/";
+        var containerpath = '/';
+        var containerdocuri = '/root.json';
             
-            if (!uri.endsWith('/')) {
-                uri = uri + "/";
-            }
-            if (req.headers["slug"] !== undefined) {
-                uri = uri + req.headers["slug"];
-            } else {
-                var newuuid = uuid.v4();
-                uri = uri + newuuid
-            }
-            docuri = uri + ".json";
-            
-            this.uri = this.uribase + uri;
-            this.puburi = this.hostbase + uri;
-            this.uripath = uri;
-            this.docuri = docuri;
-            
-        } else {
-
-            this.uri = this.uribase + uri;
-            this.puburi = this.hostbase + uri;
-            this.docuri = docuri;
+        if (req.method == "PUT") {
         
             var path_parts = this.uripath.split('/');
             //console.log(path_parts);
-    
-            // Set up defaults, but only PUT needs to know the container.
-            var containeruri = this.uribase + "/";
-            var containerpath = '/';
-            var containerdocuri = '/root.json';
-        
-            if (req.method == "PUT") {
-                //const ok = this._findContainer(path_parts, containeruri);
-                for (var i = path_parts.length - 1; i >= 0; i--) {
-                    var checkuri = path_parts.slice(0, i).join('/');
-                    //console.log("checkuri: " + checkuri);
-                    if (checkuri == '') { break; }
-                    if (containeruri != this.uribase + '/') { break; }
-                    var checkdocuri = checkuri + '.json';
-                    //console.log("Checking: " + checkdocuri)
-                    
-                    var doc = this._findContainer(checkdocuri);
-                    if (doc) {
-                        //console.log("Found")
-                        containerpath = checkuri;
-                        containeruri = this.uribase + containerpath;
-                        containerdocuri = checkdocuri;
-                        break;
-                    }
-                }
+            
+            var checks = [];
+            for (var i = path_parts.length - 1; i >= 0; i--) {
+                var checkpath = path_parts.slice(0, i).join('/');
+                var checkdocuri = checkpath + '.json';
+                var checkuri = this.uribase + checkpath;
+                var check = {
+                    checkuri: checkuri,
+                    checkpath: checkpath,
+                    checkdocuri: checkdocuri
+                };
+                checks.push(check);
             }
-                
-                    /*var db = this._db;
-                    console.log("Start")
-                    var d = await db.collection('resources')
-                            .findOne( { docuri: { $exists: true, $eq: checkdocuri } } )
-                            / *
-                            .toArray(function(err, res) {
-                                if (err) {
-                                    reject(err);
-                                }
-                                resolve(res);
-                            });
-                            * /
-                        //})
-                    //let x = docs
-                        .then(doc => {
-                            console.log("Got a doc")
-                            if (doc) {
-                                console.log("Found")
-                                containerpath = checkuri;
-                                containeruri = this.uribase + containerpath;
-                                containerdocuri = checkdocuri;
-                            }
-                        })
-                        .catch(err => {
-                            console.log("This ran");
-                            console.log(err);
-                            throw err;
-                        });
-                        console.log("End")
-                    
-                }
-                */
+            this.checks = checks;
 
-        }
-        
-        if (containerpath === '/') {
-            this.containerisroot = true;
         } else {
-            this.containerisroot = false;
+            if (req.method == "POST") {
+                /*
+                    POST requests are different.  If the immediate parent doesn't exist, 
+                    then the request needs to eventually fail.
+                    So we don't want to find the existing containter.  We need to
+                    operate on the assumption that the immediate parent is its
+                    parent.
+                */
+                containerpath = uri;
+                containerdocuri = containerpath +  ".json";
+                if (containerpath == '' || containerpath == '/') {
+                    containerpath = '/';
+                    containerdocuri = '/root.json';
+                }
+                containeruri = this.uribase + containerpath;
+                
+                if (!uri.endsWith('/')) {
+                    uri = uri + "/";
+                }
+                if (req.headers["slug"] !== undefined) {
+                    uri = uri + req.headers["slug"];
+                } else {
+                    var newuuid = uuid.v4();
+                    uri = uri + newuuid
+                }
+                docuri = uri + ".json";
+            
+                this.uri = this.uribase + uri;
+                this.puburi = this.hostbase + uri;
+                this.uripath = uri;
+                this.docuri = docuri;
+            
+            }
+            
+            if (containerpath === '/') {
+                this.containerisroot = true;
+            } else {
+                this.containerisroot = false;
+            }
+            this.containeruri = containeruri;
+            this.containerpath = containerpath;
+            this.containerdocuri = containerdocuri;
+            //console.log(this);
+            //process.exit(0);
         }
-        this.containeruri = containeruri;
-        this.containerpath = containerpath;
-        this.containerdocuri = containerdocuri;
-        //console.log(this);
-        //process.exit(0);
+    }
+    
+    setConfig(config) {
+        this._config = config;
+    }
+    
+    async findContainer(callback) {
+        await this._findContainer(0, this.checks, function(err, cobj) {
+            console.log(cobj);
+            this.containerpath = cobj.checkpath;
+            this.containeruri = cobj.checkuri;
+            this.containerdocuri = cobj.checkdocuri;
+            if (this.containerpath === '/') {
+                this.containerisroot = true;
+            } else {
+                this.containerisroot = false;
+            }
+            callback(err, this);
+        }.bind(this));
     }
 
-
-    async _findContainer(checkuri) {
-        const result =  await this._db.collection('resources')
-                        .findOne( { docuri: { $exists: true, $eq: checkuri } } )
-                            .then(doc => {
-                                doc
-                            })
-                            .catch(err => {
-                                []
-                            });
-        return result;
+    async _findContainer(pos, checks, callback) {
+        var check = checks[pos];
+        var checkdocuri = check.checkdocuri;
+        var checkuri = check.checkuri;
+        await this._db.collection(this._config.mongodb.collection)
+            .findOne( { docuri: { $exists: true, $eq: checkdocuri } } )
+            .then(doc => {
+                console.log(doc);
+                if (doc === null) {
+                    console.log("false: " + checkdocuri);
+                    pos++;
+                    this._findContainer(pos, checks, callback);
+                } else {
+                    console.log("true: " + checkdocuri);
+                    callback(false, check);
+                }
+            })
+            .catch(err => {
+                callback(err, {});
+            });
     }
+    
 }
 
 module.exports = UriUtil;
