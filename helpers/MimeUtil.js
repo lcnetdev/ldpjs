@@ -94,20 +94,35 @@ class MimeUtil{
         var accepts = []
         if (acceptParts.length === 1) {
             a = this._getMimetype(acceptParts[0]);
-            accepts.push({ value: a, qvalue: 1 });
+            var profile = "";
+            if (acceptParts[0].indexOf(";") !== -1) {
+                var ap_parts = acceptParts[0].split(';');
+                for (var app of ap_parts) {
+                    app = app.trim();
+                    if ( app.indexOf("profile=") !== -1 ) {
+                        profile = app.replace("profile=", "").replace(/"/g, '');
+                    }
+                }
+            }
+            accepts.push({ value: a, qvalue: 1, profile: profile });
         } else {
             for (var ap of acceptParts) {
                 var a = this._getMimetype(ap);
                 
                 var qvalue = 1;
+                var profile = "";
                 if (ap.indexOf(";") !== -1) {
-                    var qstr = ap.split(';')[1];
-                    qstr = qstr.trim();
-                    if ( qstr.indexOf("q=") !== -1 ) {
-                        qvalue = parseFloat(qstr.replace("q=", ""))
+                    var ap_parts = ap.split(';');
+                    for (var app of ap_parts) {
+                        app = app.trim();
+                        if ( app.indexOf("q=") !== -1 ) {
+                            qvalue = parseFloat(app.replace("q=", ""));
+                        } else if ( app.indexOf("profile=") !== -1 ) {
+                            profile = app.replace("profile=", "").replace('"', '');
+                        }
                     }
                 }
-                accepts.push({ value: a, qvalue: qvalue });
+                accepts.push({ value: a, qvalue: qvalue, profile: profile });
             }
             accepts.sort((a, b) => (a.qvalue > b.qvalue) ? -1 : 1);
         }
