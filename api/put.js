@@ -15,6 +15,7 @@ class Put extends Method {
             this._body = JSON.stringify(this._body);
         }
         
+        this._uu.setConfig(this._config);
         this._uu.getUriInfo(req);
         //console.log(this._uu);
     
@@ -22,21 +23,24 @@ class Put extends Method {
         
         this.preferences = this._headers.getPreferHeaders(req.headers);
         
-        LinkUtil.validateLinks(this._mu, res)
-            .then(data => {
-                this._mu = data;
-                var mime = this._mu.mimeContentType; 
-                var selfReference = false;
-                this._body = ProcessUtil.addDescriptionURI(this._uu, this._body, mime.incoming);
-                selfReference = ProcessUtil.selfReference(this._uu.uri, this._body, mime.incoming);
-                if (mime["resourceType"] == "RDF" && !selfReference) {
-                    res.status(400).send("No Local URI.");
-                }
-                this._process(res, this._body);
-            })
-            .catch(http_response => {
-                http_response;
-            });
+        this._uu.findContainer(function(err, uu) {
+            this._uu = uu;
+            LinkUtil.validateLinks(this._mu, res)
+                .then(data => {
+                    this._mu = data;
+                    var mime = this._mu.mimeContentType; 
+                    var selfReference = false;
+                    this._body = ProcessUtil.addDescriptionURI(this._uu, this._body, mime.incoming);
+                    selfReference = ProcessUtil.selfReference(this._uu.uri, this._body, mime.incoming);
+                    if (mime["resourceType"] == "RDF" && !selfReference) {
+                        res.status(400).send("No Local URI.");
+                    }
+                    this._process(res, this._body);
+                })
+                .catch(http_response => {
+                    http_response;
+                });
+        }.bind(this));
     }
     
     async _process(res, body) {
