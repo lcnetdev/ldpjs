@@ -62,14 +62,22 @@ class UriUtil {
             
             var checks = [];
             for (var i = path_parts.length - 1; i >= 0; i--) {
-                var checkpath = path_parts.slice(0, i).join('/');
-                var checkdocuri = checkpath + '.json';
-                var checkuri = this.uribase + checkpath;
-                var check = {
-                    checkuri: checkuri,
-                    checkpath: checkpath,
-                    checkdocuri: checkdocuri
-                };
+                if ( path_parts[i] != "" ) { 
+                    var checkpath = path_parts.slice(0, (i + 1)).join('/');
+                    var checkdocuri = checkpath + '.json';
+                    var checkuri = this.uribase + checkpath;
+                    var check = {
+                        checkuri: checkuri,
+                        checkpath: checkpath,
+                        checkdocuri: checkdocuri
+                    };
+                } else {
+                    var check = {
+                        checkuri: this.uribase + "/",
+                        checkpath: '/',
+                        checkdocuri: '/root.json'
+                    };
+                }
                 checks.push(check);
             }
             this.checks = checks;
@@ -128,7 +136,7 @@ class UriUtil {
     
     async findContainer(callback) {
         await this._findContainer(0, this.checks, function(err, cobj) {
-            console.log(cobj);
+            //console.log(cobj);
             this.containerpath = cobj.checkpath;
             this.containeruri = cobj.checkuri;
             this.containerdocuri = cobj.checkdocuri;
@@ -148,13 +156,13 @@ class UriUtil {
         await this._db.collection(this._config.mongodb.collection)
             .findOne( { docuri: { $exists: true, $eq: checkdocuri } } )
             .then(doc => {
-                console.log(doc);
+                //console.log(doc);
                 if (doc === null) {
-                    console.log("false: " + checkdocuri);
+                    //console.log("false: " + checkdocuri);
                     pos++;
                     this._findContainer(pos, checks, callback);
                 } else {
-                    console.log("true: " + checkdocuri);
+                    //console.log("true: " + checkdocuri);
                     callback(false, check);
                 }
             })
