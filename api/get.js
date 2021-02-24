@@ -169,7 +169,11 @@ class Get extends Method {
                                                 } else if (mime.profile == "http://www.w3.org/ns/json-ld#flattened") {
                                                     output = await jsonld.flatten(jsonld_obj);
                                                 } else if (mime.profile == "http://www.w3.org/ns/json-ld#compacted") {
-                                                    output = await jsonld.compact(jsonld_obj["@graph"], jsonld_obj["@context"]);
+                                                    if (jsonld_obj["@graph"] !== undefined) {
+                                                        output = await jsonld.compact(jsonld_obj["@graph"], jsonld_obj["@context"]);
+                                                    } else {
+                                                        output = await jsonld.compact(jsonld_obj, jsonld_obj["@context"]);
+                                                    }
                                                 }
                                                 res.set('Content-Type', mime.value);
                                                 res.status(200).send(JSON.stringify(output, null, 2));
