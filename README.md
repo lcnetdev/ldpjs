@@ -56,7 +56,7 @@ app.listen(3000);
 
 The above assumes, for example, that MongoDB is running at localhost on port 27017
 and that a database with the name 'ldp' and a collection with the name of 'resources'
-are OK.  See docs/configuring(docs/configuring.md) for more information about 
+are OK.  See [docs/configuring](docs/configuring.md) for more information about 
 the default configuration values and options.
 
 
