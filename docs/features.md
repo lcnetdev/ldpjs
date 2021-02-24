@@ -6,10 +6,10 @@ The following are features of `ldpjs` specific to this project.
 Contents
 -----------------
 
-* [MongoDB Document](#MongoDB Document)
-* [MongoDB Search](#MongoDB Search)
-* [Content versioning](#Content versioning)
-* [JSONLD Profiles](#JSONLD Profiles)
+* [MongoDB Document](#MongoDB+Document)
+* [MongoDB Search](#MongoDB+Search)
+* [Content versioning](#Content+versioning)
+* [JSONLD Profiles](#JSONLD+Profiles)
 
 ----------------
 
