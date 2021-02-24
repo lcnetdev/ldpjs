@@ -255,10 +255,10 @@ unique to this project because of this project's characteristics.
 
 These include but are not limited to:
 
-* [MongoDB Document](docs/features.md#MongoDB Document)
-* [MongoDB Search](docs/features.md#MongoDB Search)
-* [Content versioning](docs/features.md#Content versioning)
-* [JSONLD Profiles](docs/features.md#JSONLD Profiles)
+* [MongoDB Document](docs/features.md#mongdb-document)
+* [MongoDB Search](docs/features.md#mongdb-search)
+* [Content versioning](docs/features.md#content-versioning)
+* [JSONLD Profiles](docs/features.md#jsonld-profiles)
 
 All special features are [here](docs/features.md)
 
