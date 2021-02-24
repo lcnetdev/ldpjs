@@ -99,13 +99,18 @@ PUT request by sending the `Prefer: version=0` header:
 
 ```bash
 $ curl -s -i -X PUT -H "Prefer: version=0" http://localhost:3000/ldp/hello/world
+HTTP/1.1 204 No Content
+X-Powered-By: Express
+Preference-applied: version=0
+Date: Wed, 24 Feb 2021 19:44:42 GMT
+Connection: keep-alive
 ```
 
 
 ### JSONLD Profiles
 
 The default JSONLD profile used for GET requests - meaning the RDF output from a 
-GET request - uses the [compacted](http://www.w3.org/ns/json-ld#compacted).  It 
+GET request - uses the [compacted](http://www.w3.org/ns/json-ld#compacted) profile.  It 
 is possible to request a different profile as part of the `Accept` header.
 'expanded' and 'flattened' are also available.
 
