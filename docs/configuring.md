@@ -7,9 +7,10 @@ Contents
 -----------------
 
 * [mongodb](#mongodb)
+* [converters](#converters)
 * [context](#context)
 * [indexes](#indexes)
-* [Creating index document](#create index document)
+* [Creating an index document](#creating-an-index-document)
 
 ----------------
 
@@ -100,7 +101,7 @@ the default values.  Therefore, at this time, any additional indexes desired mus
 include these default ones.
 
 
-### create index document
+### Creating an index document
 
 ```javascript
 var createIndexDoc = function(version) {
