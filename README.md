@@ -51,6 +51,7 @@ var ldpconfig = {
 
 ldp.setConfig(ldpconfig);
 app.use('/ldp', ldp);
+app.listen(3000);
 ```
 
 The above assumes, for example, that MongoDB is running at localhost on port 27017
